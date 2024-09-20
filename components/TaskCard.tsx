@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +14,7 @@ interface TaskCardProps {
   description: string;
   buttonText: string;
   isLocked: boolean;
+  href: string; // Add this new prop
 }
 
 export default function TaskCard({
@@ -20,6 +22,7 @@ export default function TaskCard({
   description,
   buttonText,
   isLocked,
+  href, // Add this new prop
 }: TaskCardProps) {
   return (
     <Card
@@ -42,16 +45,18 @@ export default function TaskCard({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Button
-          className={
-            isLocked
-              ? "w-full bg-gray-700 text-gray-500 cursor-not-allowed"
-              : "w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105"
-          }
-          disabled={isLocked}
-        >
-          {buttonText}
-        </Button>
+        <Link href={href} passHref>
+          <Button
+            className={
+              isLocked
+                ? "w-full bg-gray-700 text-gray-500 cursor-not-allowed"
+                : "w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105"
+            }
+            disabled={isLocked}
+          >
+            {buttonText}
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );

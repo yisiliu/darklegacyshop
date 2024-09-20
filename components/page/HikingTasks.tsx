@@ -14,18 +14,21 @@ export function HikingTasks() {
           description="For novice adventurers"
           buttonText="Route 1: Cross the River"
           isLocked={false}
+          href="/tasks/1"
         />
         <TaskCard
           title="Medium"
           description="For seasoned travelers"
           buttonText="Locked"
           isLocked={true}
+          href="/tasks/1"
         />
         <TaskCard
           title="Hard"
           description="For legendary heroes"
           buttonText="Locked"
           isLocked={true}
+          href="/tasks/1"
         />
       </div>
     </main>
