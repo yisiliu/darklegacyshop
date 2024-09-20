@@ -1,5 +1,5 @@
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-black/70 border-t border-amber-900/50 text-amber-500 py-4">
@@ -7,5 +7,5 @@ export function Footer() {
         <p>&copy; {currentYear} DarkLegacyShop. All souls reserved.</p>
       </div>
     </footer>
-  )
+  );
 }
