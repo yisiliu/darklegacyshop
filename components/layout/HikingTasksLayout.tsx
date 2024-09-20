@@ -2,13 +2,13 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { HomeContent } from "@/components/page/HomeContent";
+import { HikingTasks } from "@/components/page/HikingTasks";
 
-export function DungeonShopLayout() {
+export function HikingTasksLayout() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 bg-[url('/placeholder.svg?height=600&width=600')] bg-repeat">
       <Header />
-      <HomeContent />
+      <HikingTasks />
       <Footer />
     </div>
   );

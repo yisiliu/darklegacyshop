@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Skull, Wallet } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Skull } from "lucide-react";
+import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 
 export function Header() {
   return (
@@ -13,14 +13,7 @@ export function Header() {
           <Skull className="mr-2 h-6 w-6" />
           DarkLegacyShop
         </Link>
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-amber-500 border-amber-500 hover:bg-amber-500 hover:text-gray-900"
-        >
-          <Wallet className="mr-2 h-4 w-4" />
-          Connect Wallet
-        </Button>
+        <DynamicWidget />
       </nav>
     </header>
   );
