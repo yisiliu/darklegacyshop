@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 "use client";
-
-=======
->>>>>>> 9ff9a53 (feat: update home screen to expected design)
 import {
   Card,
   CardContent,
