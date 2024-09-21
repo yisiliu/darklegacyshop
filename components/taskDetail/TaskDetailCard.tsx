@@ -83,7 +83,6 @@ export function TaskDetails() {
           <h2 className="text-lg font-bold mb-2">Next Location</h2>
           <p>Block 123, Yishun Street 11, #08-456, Singapore 760123</p>
         </div>
-
       </CardContent>
     </Card>
   );
