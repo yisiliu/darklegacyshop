@@ -1,5 +1,4 @@
 import { TaskDetails } from "@/components/taskDetail/TaskDetailCard";
-import { TaskProgress } from "@/components/taskDetail/ProgressCard";
 
 export function TaskDetail() {
   const checkpoints = [
@@ -16,9 +15,6 @@ export function TaskDetail() {
       </h1>
       <div className="grid gap-8 md:grid-cols-2">
         <TaskDetails />
-        <div className="space-y-8">
-          <TaskProgress progress={0} checkpoints={checkpoints} />
-        </div>
       </div>
     </main>
   );

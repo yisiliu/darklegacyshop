@@ -4,13 +4,18 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  Popup,
   Polyline,
+  CircleMarker,
+  Popup,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 
-export function RouteMap() {
+interface RouteMapProps {
+  progress: number;
+}
+
+export function RouteMap({ progress }: RouteMapProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -37,11 +42,31 @@ export function RouteMap() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Polyline positions={routePoints} color="red" />
+          {routePoints.map(
+            (point, index) =>
+              index < routePoints.length - 1 && (
+                <Polyline
+                  key={index}
+                  positions={[routePoints[index], routePoints[index + 1]]}
+                  color={index > progress - 2 ? "gray" : "pink"}
+                  weight={7}
+                  dashArray={index > progress - 2 ? "10, 10" : "0"}
+                  lineCap="round"
+                  lineJoin="round"
+                />
+              ),
+          )}
           {routePoints.map((point, index) => (
-            <Marker key={index} position={point}>
-              <Popup>Point {index + 1}</Popup>
-            </Marker>
+            <>
+              <CircleMarker
+                key={index}
+                center={point}
+                radius={14}
+                color={index < progress ? "pink" : "gray"}
+                fillColor={index < progress ? "#FF69B4" : "#D3D3D3"}
+                fillOpacity={1}
+              />
+            </>
           ))}
         </MapContainer>
       )}
