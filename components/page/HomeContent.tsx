@@ -8,6 +8,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { useAccount } from "wagmi";
