@@ -29,7 +29,7 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         address publicKey; // Public key of the checkpoint device
     }
 
-    struct Route {
+    struct Trail {
         Checkpoint[] checkpoints;
         address creator;
         Difficulty difficulty;
@@ -37,7 +37,7 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
 
     struct Challenge {
         bytes16 challengeId;
-        uint256 routeId;
+        uint256 trailId;
         uint256 startBlock;
         uint256 currentCheckpoint;
         bool isActive;
@@ -46,15 +46,15 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
 
     struct KeyMetadata {
         bytes16 challengeId;
-        uint256 routeId;
+        uint256 trailId;
         uint256 completionBlock;
         Difficulty difficulty;
     }
 
-    mapping(uint256 => Route) public routes;
+    mapping(uint256 => Trail) public trails;
     mapping(address => Challenge) public userChallenge;
     mapping(uint256 => KeyMetadata) public keyMetadata;
-    uint256 public routeCounter;
+    uint256 public trailCounter;
 
     // Mapping to store the number of $KEY tokens minted for each difficulty level
     mapping(Difficulty => uint256) public difficultyRewards;
@@ -62,8 +62,8 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
     // Mapping to store the stake amount for each difficulty level
     mapping(Difficulty => uint256) public difficultyStakes;
 
-    event RouteCreated(uint256 indexed routeId, address indexed creator, Difficulty difficulty);
-    event ChallengeStarted(address indexed user, bytes16 indexed challengeId, uint256 indexed routeId, uint256 stakedAmount);
+    event TrailCreated(uint256 indexed trailId, address indexed creator, Difficulty difficulty);
+    event ChallengeStarted(address indexed user, bytes16 indexed challengeId, uint256 indexed trailId, uint256 stakedAmount);
     event CheckpointReached(address indexed user, bytes16 indexed challengeId, uint256 checkpointIndex);
     event ChallengeFailed(address indexed user, bytes16 indexed challengeId, uint256 stakedAmount);
     event ChallengeCompleted(address indexed user, bytes16 indexed challengeId, uint256 tokenId, uint256 rewardAmount, uint256 returnedStake);
@@ -86,7 +86,7 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         difficultyStakes[Difficulty.Expert] = 10 * 10**6; // 10 USDC
     }
 
-    function createRoute(
+    function createTrail(
         Coordinate[] memory _locations, 
         uint256[] memory _blockLimits,
         address[] memory _publicKeys,
@@ -94,14 +94,14 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
     ) external {
         require(_locations.length == _blockLimits.length + 1, "Invalid input lengths");
         require(_locations.length == _publicKeys.length, "Invalid input lengths");
-        require(_locations.length >= 2, "Route must have at least 2 points");
+        require(_locations.length >= 2, "Trail must have at least 2 points");
 
-        Route storage newRoute = routes[routeCounter];
-        newRoute.creator = msg.sender;
-        newRoute.difficulty = _difficulty;
+        Trail storage newTrail = trails[trailCounter];
+        newTrail.creator = msg.sender;
+        newTrail.difficulty = _difficulty;
 
         for (uint256 i = 0; i < _locations.length - 1; i++) {
-            newRoute.checkpoints.push(Checkpoint({
+            newTrail.checkpoints.push(Checkpoint({
                 location: _locations[i],
                 blockLimit: _blockLimits[i],
                 publicKey: _publicKeys[i]
@@ -109,50 +109,50 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         }
 
         // Add the final location without a block limit
-        newRoute.checkpoints.push(Checkpoint({
+        newTrail.checkpoints.push(Checkpoint({
             location: _locations[_locations.length - 1],
             blockLimit: 0,
             publicKey: _publicKeys[_publicKeys.length - 1]
         }));
 
-        emit RouteCreated(routeCounter, msg.sender, _difficulty);
-        routeCounter++;
+        emit TrailCreated(trailCounter, msg.sender, _difficulty);
+        trailCounter++;
     }
 
-    function startChallenge(uint256 _routeId) external {
-        require(routes[_routeId].checkpoints.length > 0, "Route does not exist");
+    function startChallenge(uint256 _trailId) external {
+        require(trails[_trailId].checkpoints.length > 0, "Trail does not exist");
         
         // If there's an active challenge, fail it before starting a new one
         if (userChallenge[msg.sender].isActive) {
             _failChallenge(msg.sender);
         }
 
-        Route storage route = routes[_routeId];
-        uint256 stakeAmount = difficultyStakes[route.difficulty];
+        Trail storage trail = trails[_trailId];
+        uint256 stakeAmount = difficultyStakes[trail.difficulty];
 
         // Transfer USDC directly from user to reward pool
         require(usdcToken.transferFrom(msg.sender, rewardPool, stakeAmount), "USDC transfer to reward pool failed");
 
-        bytes16 newChallengeId = _generateChallengeId(msg.sender, _routeId);
+        bytes16 newChallengeId = _generateChallengeId(msg.sender, _trailId);
 
         userChallenge[msg.sender] = Challenge({
             challengeId: newChallengeId,
-            routeId: _routeId,
+            trailId: _trailId,
             startBlock: block.number,
             currentCheckpoint: 0,
             isActive: true,
             stakedAmount: stakeAmount
         });
 
-        emit ChallengeStarted(msg.sender, newChallengeId, _routeId, stakeAmount);
+        emit ChallengeStarted(msg.sender, newChallengeId, _trailId, stakeAmount);
     }
 
     function checkIn(bytes memory _signature) external {
         Challenge storage challenge = userChallenge[msg.sender];
         require(challenge.isActive, "No active challenge");
 
-        Route storage route = routes[challenge.routeId];
-        Checkpoint storage currentCheckpoint = route.checkpoints[challenge.currentCheckpoint];
+        Trail storage trail = trails[challenge.trailId];
+        Checkpoint storage currentCheckpoint = trail.checkpoints[challenge.currentCheckpoint];
 
         // Verify the signature
         bytes32 message = keccak256(abi.encodePacked(challenge.challengeId, msg.sender));
@@ -160,7 +160,7 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         require(signer == currentCheckpoint.publicKey, "Invalid signature");
 
         if (challenge.currentCheckpoint > 0) {
-            Checkpoint storage previousCheckpoint = route.checkpoints[challenge.currentCheckpoint - 1];
+            Checkpoint storage previousCheckpoint = trail.checkpoints[challenge.currentCheckpoint - 1];
             require(
                 block.number <= challenge.startBlock + previousCheckpoint.blockLimit,
                 "Block limit exceeded"
@@ -170,11 +170,11 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         challenge.currentCheckpoint++;
         emit CheckpointReached(msg.sender, challenge.challengeId, challenge.currentCheckpoint - 1);
 
-        if (challenge.currentCheckpoint == route.checkpoints.length) {
+        if (challenge.currentCheckpoint == trail.checkpoints.length) {
             challenge.isActive = false;
             // Transfer staked USDC from reward pool back to user
             require(usdcToken.transferFrom(rewardPool, msg.sender, challenge.stakedAmount), "USDC return failed");
-            _mintKey(msg.sender, challenge.challengeId, challenge.routeId, route.difficulty, challenge.stakedAmount);
+            _mintKey(msg.sender, challenge.challengeId, challenge.trailId, trail.difficulty, challenge.stakedAmount);
         }
     }
 
@@ -190,11 +190,11 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         emit ChallengeFailed(user, challenge.challengeId, challenge.stakedAmount);
     }
 
-    function _generateChallengeId(address user, uint256 routeId) internal view returns (bytes16) {
-        return bytes16(keccak256(abi.encodePacked(user, routeId, block.timestamp, block.prevrandao)));
+    function _generateChallengeId(address user, uint256 trailId) internal view returns (bytes16) {
+        return bytes16(keccak256(abi.encodePacked(user, trailId, block.timestamp, block.prevrandao)));
     }
 
-    function _mintKey(address to, bytes16 challengeId, uint256 routeId, Difficulty difficulty, uint256 returnedStake) internal {
+    function _mintKey(address to, bytes16 challengeId, uint256 trailId, Difficulty difficulty, uint256 returnedStake) internal {
         uint256 rewardAmount = difficultyRewards[difficulty];
         
         for (uint256 i = 0; i < rewardAmount; i++) {
@@ -203,7 +203,7 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
 
             keyMetadata[newTokenId] = KeyMetadata({
                 challengeId: challengeId,
-                routeId: routeId,
+                trailId: trailId,
                 completionBlock: block.number,
                 difficulty: difficulty
             });
