@@ -1,52 +1,39 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Footprints, Clock, Trophy, BadgeCheck } from "lucide-react";
 import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
-import { useCheckin } from "@/hooks/hiking/useCheckin";
-import { useAccount } from "wagmi";
+
 import { RouteMap } from "@/components/taskDetail/RouteMapCard";
 
 export function TaskDetails() {
-  const [isFirstTime, setIsFirstTime] = useState(true);
-  const {
-    startChallenge,
-    isConfirming: isStartingChallenge,
-    isConfirmed: isStartedChallenge,
-    error: startChallengeError,
-  } = useStartChallenge();
+  const [isStartingChallenge, setIsStartingChallenge] = useState(false);
+  const [isStartedChallenge, setIsStartedChallenge] = useState(false);
+  const [startChallengeError, setStartChallengeError] = useState<Error | null>(
+    null,
+  );
 
-  const handleStartChallenge = async (challengeId: bigint) => {
-    try {
-      await startChallenge(challengeId);
-    } catch (error) {
-      console.error(error);
-    }
-    return (
-      <>
-        <Button className="w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105">
-          Begin Journey
-        </Button>
-        {isStartingChallenge && <p>Starting challenge...</p>}
-        {isStartedChallenge && <p>Challenge started!</p>}
-        {startChallengeError && (
-          <p>Error starting challenge: {startChallengeError?.message}</p>
-        )}
-      </>
-    );
+  const { startChallenge } = useStartChallenge();
+
+  const handleStartChallenge = () => {
+    setIsStartingChallenge(true);
+    setStartChallengeError(null);
+
+    startChallenge(BigInt(1))
+      .then(() => {
+        setIsStartedChallenge(true);
+      })
+      .catch((error) => {
+        setStartChallengeError(error);
+      })
+      .finally(() => {
+        setIsStartingChallenge(false);
+      });
   };
 
   return (
-    <Card
-      className={`bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden`}
-    >
+    <Card className="bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden">
       <CardHeader>
         <RouteMap progress={2} />
       </CardHeader>
@@ -76,9 +63,17 @@ export function TaskDetails() {
           hop across stepping stones, and use a rickety bridge to reach the
           other side.
         </p>
-        <Button className="w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105">
-          Begin Journey
+        <Button
+          onClick={handleStartChallenge}
+          disabled={isStartingChallenge}
+          className="w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105"
+        >
+          {isStartingChallenge ? "Starting..." : "Begin Journey"}
         </Button>
+        {isStartedChallenge && <p>Challenge started!</p>}
+        {startChallengeError && (
+          <p>Error starting challenge: {startChallengeError.message}</p>
+        )}
         <div className="bg-pink-300 rounded-lg p-4 text-center">
           <h2 className="text-lg font-bold mb-2">Next Location</h2>
           <p>Block 123, Yishun Street 11, #08-456, Singapore 760123</p>

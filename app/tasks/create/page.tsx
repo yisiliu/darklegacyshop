@@ -10,10 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import LocationInput from "./LocationInput";
-import DifficultySelector from "./DifficultySelector";
-import Header from "./Header";
-import Footer from "./Footer";
+import LocationInput from "@/components/taskDetail/LocationInput";
+import DifficultySelector from "@/components/taskDetail/DifficultySelector";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 type Coordinate = [number, number];
 type Difficulty = "Easy" | "Medium" | "Hard";
@@ -133,14 +133,6 @@ export function CreateRouteComponent() {
               </Button>
             </CardContent>
           </Card>
-
-          <DifficultySelector
-            difficulty={routeData.difficulty}
-            setDifficulty={(value: Difficulty) =>
-              setRouteData((prev) => ({ ...prev, difficulty: value }))
-            }
-          />
-
           <Button
             type="submit"
             className="w-full bg-amber-500 text-gray-900 hover:bg-amber-600"
