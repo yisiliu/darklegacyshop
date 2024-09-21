@@ -1,8 +1,8 @@
 "use client";
 
-import { TaskDetails } from "./taskDetail/TaskDetailCard";
-import { RouteMap } from "./taskDetail/RouteMapCard";
-import { TaskProgress } from "./taskDetail/ProgressCard";
+import { TaskDetails } from "../taskDetail/TaskDetailCard";
+import { RouteMap } from "../taskDetail/RouteMapCard";
+import { TaskProgress } from "../taskDetail/ProgressCard";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
