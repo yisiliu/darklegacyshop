@@ -8,10 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Footprints, Clock, Trophy } from "lucide-react";
+import { Footprints, Clock, Trophy, BadgeCheck } from "lucide-react";
 import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
 import { useCheckin } from "@/hooks/hiking/useCheckin";
 import { useAccount } from "wagmi";
+import { RouteMap } from "@/components/taskDetail/RouteMapCard";
 
 export function TaskDetails() {
   const [isFirstTime, setIsFirstTime] = useState(true);
