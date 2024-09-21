@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,8 +9,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Footprints, Clock, Trophy } from "lucide-react";
+import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
+import { useCheckin } from "@/hooks/hiking/useCheckin";
+import { useAccount } from "wagmi";
 
 export function TaskDetails() {
+  const [isFirstTime, setIsFirstTime] = useState(true);
+  const {
+    startChallenge,
+    isConfirming: isStartingChallenge,
+    isConfirmed: isStartedChallenge,
+    error: startChallengeError,
+  } = useStartChallenge();
+
+  const handleStartChallenge = async (challengeId: bigint) => {
+    try {
+      await startChallenge(challengeId);
+    } catch (error) {
+      console.error(error);
+    }
+    return (
+      <>
+        <Button className="w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105">
+          Begin Journey
+        </Button>
+        {isStartingChallenge && <p>Starting challenge...</p>}
+        {isStartedChallenge && <p>Challenge started!</p>}
+        {startChallengeError && (
+          <p>Error starting challenge: {startChallengeError?.message}</p>
+        )}
+      </>
+    );
+  };
+
   return (
     <Card className="bg-gray-800 border-amber-500 text-amber-300">
       <CardHeader>
@@ -38,9 +69,9 @@ export function TaskDetails() {
           hop across stepping stones, and use a rickety bridge to reach the
           other side.
         </p>
-        <Button className="w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105">
-          Begin Journey
-        </Button>
+        {isFirstTime
+          ? handleStartChallenge(challengeId)
+          : handleCheckin(signingMessage)}
       </CardContent>
     </Card>
   );
