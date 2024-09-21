@@ -1,14 +1,12 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { TaskDetail } from "@/components/page/TaskDetail";
+import { UserInfo } from "@/components/page/UserInfo";
 
-export function EasyTaskDetail() {
+export function UserInfoLayout() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 bg-[url('/placeholder.svg?height=600&width=600')] bg-repeat">
       <Header />
-
-      <TaskDetail />
-
+      <UserInfo />
       <Footer />
     </div>
   );

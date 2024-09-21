@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { ProgressCard } from "./ProgressCard";
 import { MapShard } from "./MapShard";
 import { CongratsCard } from "./CongratsCard";

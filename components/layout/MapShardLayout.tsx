@@ -1,5 +1,5 @@
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import { MapShardSelection } from "@/components/page/MapSelection";
 
 export function MapShardLayout() {
