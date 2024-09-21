@@ -17,7 +17,8 @@ export function TaskDetail() {
       <div className="grid gap-8 md:grid-cols-2">
         <TaskDetails />
         <div className="space-y-8">
-          <TaskProgress />
+          <RouteMap />
+          <TaskProgress progress={0} checkpoints={checkpoints} />
         </div>
       </div>
     </main>
