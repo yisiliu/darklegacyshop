@@ -1,11 +1,47 @@
 "use client";
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { RouteMap } from "@/components/taskDetail/RouteMapCard";
-import { BadgeCheck, Footprints, Clock, Trophy } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Footprints, Clock, Trophy } from "lucide-react";
+import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
+import { useCheckin } from "@/hooks/hiking/useCheckin";
+import { useAccount } from "wagmi";
 
 export function TaskDetails() {
+  const [isFirstTime, setIsFirstTime] = useState(true);
+  const {
+    startChallenge,
+    isConfirming: isStartingChallenge,
+    isConfirmed: isStartedChallenge,
+    error: startChallengeError,
+  } = useStartChallenge();
+
+  const handleStartChallenge = async (challengeId: bigint) => {
+    try {
+      await startChallenge(challengeId);
+    } catch (error) {
+      console.error(error);
+    }
+    return (
+      <>
+        <Button className="w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105">
+          Begin Journey
+        </Button>
+        {isStartingChallenge && <p>Starting challenge...</p>}
+        {isStartedChallenge && <p>Challenge started!</p>}
+        {startChallengeError && (
+          <p>Error starting challenge: {startChallengeError?.message}</p>
+        )}
+      </>
+    );
+  };
+
   return (
     <Card
       className={`bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden`}
@@ -39,6 +75,7 @@ export function TaskDetails() {
           hop across stepping stones, and use a rickety bridge to reach the
           other side.
         </p>
+<<<<<<< HEAD
         <Button className="w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105">
           Begin Journey
         </Button>
@@ -46,6 +83,11 @@ export function TaskDetails() {
           <h2 className="text-lg font-bold mb-2">Next Location</h2>
           <p>Block 123, Yishun Street 11, #08-456, Singapore 760123</p>
         </div>
+=======
+        {isFirstTime
+          ? handleStartChallenge(challengeId)
+          : handleCheckin(signingMessage)}
+>>>>>>> 2329502 (refactor: task detail page)
       </CardContent>
     </Card>
   );
