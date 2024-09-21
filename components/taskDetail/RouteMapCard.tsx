@@ -46,7 +46,7 @@ export function RouteMap() {
               />
               <Polyline positions={routePoints} color="red" />
               {routePoints.map((point, index) => (
-                <Marker key={index} position={point} icon={Skull}>
+                <Marker key={index} position={point}>
                   <Popup>Point {index + 1}</Popup>
                 </Marker>
               ))}
