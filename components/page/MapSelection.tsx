@@ -17,18 +17,16 @@ export function MapShardSelection() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 bg-[url('/placeholder.svg?height=600&width=600')] bg-repeat">
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-amber-500 mb-8 text-center">
-          Unlock the Ancient Forest Map
-        </h1>
-
+    <div className="h-full flex flex-col overflow-hidden bg-[url('/images/map1.png')] bg-cover">
+      <div className="flex-shrink-0">
         <ProgressCard
           unlockedShards={unlockedShards.length}
           totalShards={totalShards}
         />
+      </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="flex-grow overflow-hidden">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-0 h-full">
           {[...Array(totalShards)].map((_, index) => (
             <MapShard
               key={index}
@@ -38,9 +36,13 @@ export function MapShardSelection() {
             />
           ))}
         </div>
+      </div>
 
-        {unlockedShards.length === totalShards && <CongratsCard />}
-      </main>
+      {unlockedShards.length === totalShards && (
+        <div className="flex-shrink-0">
+          <CongratsCard />
+        </div>
+      )}
     </div>
   );
 }
