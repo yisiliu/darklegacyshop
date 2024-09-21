@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
 
 export function HomeContent() {
@@ -15,6 +16,7 @@ export function HomeContent() {
           Enter Shop
         </Button>
       </Link>
+      <Footer />
     </main>
   );
 }
