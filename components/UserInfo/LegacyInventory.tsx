@@ -10,10 +10,10 @@ import { Swords, Shield, Option, Scroll } from "lucide-react";
 
 export default function LegacyStorageCard() {
   return (
-    <Card className="md:col-span-2 bg-gray-800 border-amber-500 text-amber-300">
+    <Card className="md:col-span-1 bg-gray-800 border-2 bg-white border-gray-700">
       <CardHeader>
         <CardTitle className="text-2xl">Legacy Storage</CardTitle>
-        <CardDescription className="text-amber-400">
+        <CardDescription className="text-gray-500">
           Your collected items and treasures
         </CardDescription>
       </CardHeader>
@@ -22,28 +22,28 @@ export default function LegacyStorageCard() {
           <TabsList className="grid w-full grid-cols-4 bg-gray-700">
             <TabsTrigger
               value="weapons"
-              className="data-[state=active]:bg-amber-500 data-[state=active]:text-gray-900"
+              className="data-[state=active]:bg-pink-300 data-[state=active]:text-gray-900"
             >
               <Swords className="mr-2 h-4 w-4" />
               Weapons
             </TabsTrigger>
             <TabsTrigger
               value="armor"
-              className="data-[state=active]:bg-amber-500 data-[state=active]:text-gray-900"
+              className="data-[state=active]:bg-pink-300 data-[state=active]:text-gray-900"
             >
               <Shield className="mr-2 h-4 w-4" />
               Armor
             </TabsTrigger>
             <TabsTrigger
               value="potions"
-              className="data-[state=active]:bg-amber-500 data-[state=active]:text-gray-900"
+              className="data-[state=active]:bg-pink-300 data-[state=active]:text-gray-900"
             >
               <Option className="mr-2 h-4 w-4" />
               Potions
             </TabsTrigger>
             <TabsTrigger
               value="scrolls"
-              className="data-[state=active]:bg-amber-500 data-[state=active]:text-gray-900"
+              className="data-[state=active]:bg-pink-300 data-[state=active]:text-gray-900"
             >
               <Scroll className="mr-2 h-4 w-4" />
               Scrolls
