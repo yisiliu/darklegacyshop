@@ -54,7 +54,7 @@ contract UndergroundDungeon is Ownable {
     event BossDefeated(uint256 level, uint256 totalReward, uint256 participantCount);
     event StatPointsAllocated(address indexed player, string stat, uint256 value);
 
-    constructor(address _usdcTokenAddress, address _rewardPool) {
+    constructor(address _usdcTokenAddress, address _rewardPool) Ownable(msg.sender) {
         usdcToken = IERC20(_usdcTokenAddress);
         rewardPool = _rewardPool;
     }
@@ -197,14 +197,36 @@ contract UndergroundDungeon is Ownable {
     }
 
     function _calculateAreasForLevel(uint256 level) internal pure returns (uint256) {
-        return Math.round(5 * Math.log(level + 1));
+        uint256 lnApprox = approximateLog(level);
+        
+        // Scale by 15, add offset of 5, and round
+        // We add 5e17 (half of 1e18) before dividing by 1e18 to implement rounding
+        uint256 scaled = (15 * lnApprox + 5e18 + 5e17) / 1e18;
+        
+        return scaled;
+    }
+
+    function approximateLog(uint256 x) internal pure returns (uint256) {
+        if (x == 0) return 0;
+        
+        uint256 y = 0;
+        uint256 z = (x * 1e18) / (1e18 + x);
+        uint256 term = 1e18;
+        
+        // Use 8 iterations of the series expansion
+        for (uint256 i = 1; i <= 8; i++) {
+            y += term / i;
+            term = (term * z) / 1e18;
+        }
+        
+        return y;
     }
 
     function _calculateDamage(uint256 strength) internal pure returns (uint256) {
         return strength * 2;  // Simple damage calculation
     }
 
-    function _calculateMonsterDamage(uint256 level, uint256 endurance, uint256 agility) internal pure returns (uint256) {
+    function _calculateMonsterDamage(uint256 level, uint256 endurance, uint256 agility) internal view returns (uint256) {
         uint256 baseDamage = level * 10;
         uint256 reducedDamage = (baseDamage * (100 - endurance)) / 100;
         
