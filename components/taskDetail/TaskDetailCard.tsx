@@ -75,7 +75,6 @@ export function TaskDetails() {
           hop across stepping stones, and use a rickety bridge to reach the
           other side.
         </p>
-<<<<<<< HEAD
         <Button className="w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105">
           Begin Journey
         </Button>
@@ -83,11 +82,7 @@ export function TaskDetails() {
           <h2 className="text-lg font-bold mb-2">Next Location</h2>
           <p>Block 123, Yishun Street 11, #08-456, Singapore 760123</p>
         </div>
-=======
-        {isFirstTime
-          ? handleStartChallenge(challengeId)
-          : handleCheckin(signingMessage)}
->>>>>>> 2329502 (refactor: task detail page)
+
       </CardContent>
     </Card>
   );
