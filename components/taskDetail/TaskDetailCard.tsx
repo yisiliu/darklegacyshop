@@ -48,7 +48,7 @@ export function TaskDetails() {
       className={`bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden`}
     >
       <CardHeader>
-        <RouteMap />
+        <RouteMap progress={2} />
       </CardHeader>
       <CardContent className="space-y-4">
         <h1 className="text-xl md:text-5xl font-extrabold text-amber-500 mb-4 text-gray-700">
