@@ -3,10 +3,12 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 
 contract UndergroundDungeon is Ownable {
     IERC20 public usdcToken;
+    IERC721 public dungeonKey;
     address public rewardPool;
 
     enum AreaType { Empty, Monster, Chest, NextLevel }
@@ -31,10 +33,10 @@ contract UndergroundDungeon is Ownable {
         uint256 agility;      // Affects chance to dodge monster attacks
         uint256 luck;         // Affects chest rewards and rare item finds
     }
+    
 
     struct PlayerDungeon {
         uint256 currentLevel;
-        uint256 keyBalance;
         PlayerStats stats;
         mapping(uint256 => DungeonLevel) levels;
     }
@@ -54,9 +56,10 @@ contract UndergroundDungeon is Ownable {
     event BossDefeated(uint256 level, uint256 totalReward, uint256 participantCount);
     event StatPointsAllocated(address indexed player, string stat, uint256 value);
 
-    constructor(address _usdcTokenAddress, address _rewardPool) Ownable(msg.sender) {
+    constructor(address _usdcTokenAddress, address _rewardPool, address _dungeonKey) Ownable(msg.sender) {
         usdcToken = IERC20(_usdcTokenAddress);
         rewardPool = _rewardPool;
+        dungeonKey = IERC721(_dungeonKey);
     }
 
     function initializePlayerDungeon(address player) external {
@@ -89,18 +92,14 @@ contract UndergroundDungeon is Ownable {
         emit StatPointsAllocated(msg.sender, stat, points);
     }
 
-    function addKeys(address player, uint256 amount) external {
-        playerDungeons[player].keyBalance += amount;
-    }
-
     function unlockArea(address player, uint256 level, uint256 area) public {
         PlayerDungeon storage dungeon = playerDungeons[player];
-        require(dungeon.keyBalance >= KEY_UNLOCK_COST, "Insufficient KEY balance");
+        require(dungeonKey.balanceOf(player) >= KEY_UNLOCK_COST, "Insufficient KEY balance");
         require(level == dungeon.currentLevel, "Invalid level");
         require(area < dungeon.levels[level].totalAreas, "Invalid area");
         require(!dungeon.levels[level].areas[area].isUnlocked, "Area already unlocked");
 
-        dungeon.keyBalance -= KEY_UNLOCK_COST;
+        dungeonKey.transferFrom(player, address(this), KEY_UNLOCK_COST);
         dungeon.levels[level].areas[area].isUnlocked = true;
         dungeon.levels[level].unlockedAreas++;
 
@@ -139,7 +138,8 @@ contract UndergroundDungeon is Ownable {
         } else if (currentArea.areaType == AreaType.Chest) {
             uint256 reward = currentArea.chestReward;
             uint256 bonusReward = (reward * dungeon.stats.luck) / 100;
-            dungeon.keyBalance += reward + bonusReward;
+            if (dungeonKey.balanceOf(address(this)) >= reward + bonusReward) 
+                dungeonKey.transferFrom(address(this), player, reward + bonusReward);
             currentArea.chestReward = 0;
             emit ChestOpened(player, level, area, reward + bonusReward);
         } else if (currentArea.areaType == AreaType.NextLevel) {
