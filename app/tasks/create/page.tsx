@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/card";
 
 import LocationInput from "@/components/taskDetail/LocationInput";
-import DifficultySelector from "@/components/taskDetail/DifficultySelector";
+import DifficultySelector, {
+  Difficulty,
+} from "@/components/taskDetail/DifficultySelector";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Plus } from "lucide-react";
@@ -134,6 +136,7 @@ export default function CreateRouteComponent() {
               </Button>
             </CardContent>
           </Card>
+          <DifficultySelector />
           <Button
             type="submit"
             className="w-full bg-amber-500 text-gray-900 hover:bg-amber-600"

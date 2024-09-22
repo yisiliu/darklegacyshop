@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -11,15 +11,9 @@ import {
 
 export type Difficulty = "easy" | "medium" | "hard";
 
-interface DifficultySelectorProps {
-  difficulty: Difficulty;
-  setDifficulty: (value: Difficulty) => void;
-}
-
-const DifficultySelector: React.FC<DifficultySelectorProps> = ({
-  difficulty,
-  setDifficulty,
-}) => {
+const DifficultySelector = () => {
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<Difficulty>(difficulty);
   return (
     <Card className="bg-gray-800 border-amber-500 text-amber-300 mb-8">
       <CardHeader>
@@ -30,8 +24,8 @@ const DifficultySelector: React.FC<DifficultySelectorProps> = ({
       </CardHeader>
       <CardContent>
         <RadioGroup
-          value={difficulty}
-          onValueChange={(value) => setDifficulty(value as Difficulty)}
+          value={selectedDifficulty}
+          onValueChange={(value) => setSelectedDifficulty(value as Difficulty)}
           className="flex space-x-4"
         >
           {["easy", "medium", "hard"].map((level) => (

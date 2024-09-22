@@ -29,7 +29,48 @@ const LocationInput: React.FC<LocationInputProps> = ({
 }) => {
   return (
     <div className="mb-6 p-4 border border-amber-500 rounded-lg">
-      {/* ... Input fields for location, block limit, and public key ... */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <Label htmlFor={`x-${index}`}>X Coordinate</Label>
+          <Input
+            id={`x-${index}`}
+            type="number"
+            value={location[0]}
+            onChange={(e) => updateLocation(index, "x", e.target.value)}
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <Label htmlFor={`y-${index}`}>Y Coordinate</Label>
+          <Input
+            id={`y-${index}`}
+            type="number"
+            value={location[1]}
+            onChange={(e) => updateLocation(index, "y", e.target.value)}
+            className="mt-1"
+          />
+        </div>
+      </div>
+      <div className="mb-4">
+        <Label htmlFor={`blockLimit-${index}`}>Block Limit</Label>
+        <Input
+          id={`blockLimit-${index}`}
+          type="number"
+          value={blockLimit.toString()}
+          onChange={(e) => updateBlockLimit(index, e.target.value)}
+          className="mt-1"
+        />
+      </div>
+      <div className="mb-4">
+        <Label htmlFor={`publicKey-${index}`}>Public Key</Label>
+        <Input
+          id={`publicKey-${index}`}
+          type="text"
+          value={publicKey}
+          onChange={(e) => updatePublicKey(index, e.target.value)}
+          className="mt-1"
+        />
+      </div>
       {isRemovable && (
         <Button
           type="button"
@@ -47,4 +88,3 @@ const LocationInput: React.FC<LocationInputProps> = ({
 };
 
 export default LocationInput;
-d;
