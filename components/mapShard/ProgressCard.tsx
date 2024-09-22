@@ -1,12 +1,3 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-
 interface ProgressCardProps {
   unlockedShards: number;
   totalShards: number;
@@ -16,22 +7,26 @@ export function ProgressCard({
   unlockedShards,
   totalShards,
 }: ProgressCardProps) {
-  const progress = (unlockedShards / totalShards) * 100;
-
   return (
-    <Card className="bg-gray-800 border-amber-500 text-amber-300 mb-8">
-      <CardHeader>
-        <CardTitle className="text-2xl">Level 1 Progress</CardTitle>
-        <CardDescription className="text-amber-400">
-          Unlock all {totalShards} shards to reveal the full map
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Progress value={progress} className="h-2 bg-gray-700" />
-        <p className="mt-2 text-right">
-          {unlockedShards} / {totalShards} Shards Unlocked
-        </p>
-      </CardContent>
-    </Card>
+    <div className="text-center text-white absolute top-40 left-0 right-0 z-50 pointer-events-none">
+      <h3
+        className="font-bold text-shadow"
+        style={{ textShadow: "0 0 6px rgba(0, 0, 0, 0.5)" }}
+      >
+        Pick a Shard to Explore
+      </h3>
+      <h2
+        className="text-2xl font-bold text-shadow"
+        style={{ textShadow: "0 0 6px rgba(0, 0, 0, 0.5)" }}
+      >
+        Level 1
+      </h2>
+      <p
+        className="text-3xl font-bold text-shadow"
+        style={{ textShadow: "0 0 6px rgba(0, 0, 0, 0.5)" }}
+      >
+        {unlockedShards} / {totalShards}
+      </p>
+    </div>
   );
 }

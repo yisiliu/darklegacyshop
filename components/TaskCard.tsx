@@ -7,7 +7,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Mountain, Lock } from "lucide-react";
 
 interface TaskCardProps {
   title: string;
@@ -26,21 +25,13 @@ export default function TaskCard({
 }: TaskCardProps) {
   return (
     <Card
-      className={`bg-gray-800 ${isLocked ? "border-gray-700 text-gray-400" : "border-amber-500 text-amber-300"} relative overflow-hidden`}
+      className={`bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden`}
     >
-      {isLocked && (
-        <div className="absolute inset-0 bg-black/70 flex flex-col space-y-3 items-center justify-center z-10">
-          <Lock className="h-16 w-16 text-gray-500" />
-          <p className="text-gray-500 text-xl font-bold">Coming Soon</p>
-        </div>
-      )}
       <CardHeader>
-        <CardTitle className="text-2xl flex items-center justify-between">
-          {title} <Mountain className="h-6 w-6" />
+        <CardTitle className="text-2xl flex items-center justify-center">
+          {title}
         </CardTitle>
-        <CardDescription
-          className={isLocked ? "text-gray-500" : "text-amber-400"}
-        >
+        <CardDescription className="text-gray-500 text-center">
           {description}
         </CardDescription>
       </CardHeader>
@@ -49,8 +40,8 @@ export default function TaskCard({
           <Button
             className={
               isLocked
-                ? "w-full bg-gray-700 text-gray-500 cursor-not-allowed"
-                : "w-full bg-red-900 hover:bg-red-800 text-amber-300 border-2 border-amber-500 shadow-lg shadow-red-900/50 transform transition-all duration-200 hover:scale-105"
+                ? "w-full text-lg py-8 bg-gray-700 hover:bg-gray-600 text-white rounded-full transform transition-all duration-200 hover:scale-105 cursor-not-allowed"
+                : "w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105"
             }
             disabled={isLocked}
           >

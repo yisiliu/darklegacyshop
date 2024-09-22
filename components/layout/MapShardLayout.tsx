@@ -4,12 +4,9 @@ import { MapShardSelection } from "@/components/page/MapSelection";
 
 export function MapShardLayout() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 bg-[url('/placeholder.svg?height=600&width=600')] bg-repeat">
+    <div className="flex flex-col h-screen overflow-hidden bg-gray-900 bg-[url('/placeholder.svg?height=600&width=600')] bg-repeat space-y-15">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-amber-500 mb-8 text-center">
-          Unlock the Ancient Forest Map
-        </h1>
+      <main className="flex-grow overflow-auto">
         <MapShardSelection />
       </main>
       <Footer />

@@ -5,13 +5,11 @@ import {
   ISuccessResult,
 } from "@worldcoin/idkit";
 
-import React from "react";
+import React, { useState } from "react";
+import { Badge } from "./ui/badge";
 
-interface VerifyWLDProps {
-  onSuccess: () => void;
-}
-
-const VerifyWLD: React.FC<VerifyWLDProps> = ({ onSuccess }) => {
+const VerifyWLD: React.FC<VerifyWLDProps> = () => {
+  const [isVerified, setIsVerified] = useState(false);
   const appId: `app_${string}` = process.env
     .NEXT_PUBLIC_WLD_CLIENT_ID as `app_${string}`;
   const handleVerify = async (proof: ISuccessResult) => {
@@ -42,20 +40,28 @@ const VerifyWLD: React.FC<VerifyWLDProps> = ({ onSuccess }) => {
     }
   };
 
+  function onSuccess(result: ISuccessResult): void | Promise<void> {
+    setIsVerified(true);
+  }
+
   return (
     <div className="z-[60]">
-      <IDKitWidget
-        app_id={appId || ""} // fallback to empty string if undefined
-        action={process.env.NEXT_PUBLIC_WLD_CLIENT_SECRET || ""} // fallback to empty string if undefined
-        onSuccess={onSuccess} // callback when the modal is closed
-        handleVerify={handleVerify} // callback when the proof is received
-        verification_level={VerificationLevel.Orb}
-      >
-        {({ open }) => (
-          // This is the button that will open the IDKit modal
-          <button onClick={open}>KYC to Play the game</button>
-        )}
-      </IDKitWidget>
+      {isVerified ? (
+        <Badge className="bg-green-500 text-white">Verified</Badge>
+      ) : (
+        <IDKitWidget
+          app_id={appId || ""} // fallback to empty string if undefined
+          action={process.env.NEXT_PUBLIC_WLD_CLIENT_SECRET || ""} // fallback to empty string if undefined
+          onSuccess={onSuccess} // callback when the modal is closed
+          handleVerify={handleVerify} // callback when the proof is received
+          verification_level={VerificationLevel.Orb}
+        >
+          {({ open }) => (
+            // This is the button that will open the IDKit modal
+            <button onClick={open}>Verify</button>
+          )}
+        </IDKitWidget>
+      )}
     </div>
   );
 };

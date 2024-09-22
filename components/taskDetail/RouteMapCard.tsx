@@ -4,15 +4,18 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  Popup,
   Polyline,
+  CircleMarker,
+  Popup,
 } from "react-leaflet";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
-import { Skull } from "lucide-react";
 
-export function RouteMap() {
+interface RouteMapProps {
+  progress: number;
+}
+
+export function RouteMap({ progress }: RouteMapProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -27,33 +30,46 @@ export function RouteMap() {
   ];
 
   return (
-    <Card className="bg-gray-800 border-amber-500 text-amber-300">
-      <CardHeader>
-        <CardTitle className="text-2xl">Route Map</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-64 rounded-lg overflow-hidden">
-          {isMounted && (
-            <MapContainer
-              center={routePoints[0]}
-              zoom={13}
-              scrollWheelZoom={false}
-              style={{ height: "100%", width: "100%" }}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Polyline positions={routePoints} color="red" />
-              {routePoints.map((point, index) => (
-                <Marker key={index} position={point} icon={Skull}>
-                  <Popup>Point {index + 1}</Popup>
-                </Marker>
-              ))}
-            </MapContainer>
+    <div className="h-64 rounded-lg overflow-hidden">
+      {isMounted && (
+        <MapContainer
+          center={routePoints[0]}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {routePoints.map(
+            (point, index) =>
+              index < routePoints.length - 1 && (
+                <Polyline
+                  key={index}
+                  positions={[routePoints[index], routePoints[index + 1]]}
+                  color={index > progress - 2 ? "gray" : "pink"}
+                  weight={7}
+                  dashArray={index > progress - 2 ? "10, 10" : "0"}
+                  lineCap="round"
+                  lineJoin="round"
+                />
+              ),
           )}
-        </div>
-      </CardContent>
-    </Card>
+          {routePoints.map((point, index) => (
+            <>
+              <CircleMarker
+                key={index}
+                center={point}
+                radius={14}
+                color={index < progress ? "pink" : "gray"}
+                fillColor={index < progress ? "#FF69B4" : "#D3D3D3"}
+                fillOpacity={1}
+              />
+            </>
+          ))}
+        </MapContainer>
+      )}
+    </div>
   );
 }

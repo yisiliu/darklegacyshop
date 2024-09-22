@@ -1,6 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Lock } from "lucide-react";
-import Image from "next/image";
 
 interface MapShardProps {
   index: number;
@@ -10,30 +8,22 @@ interface MapShardProps {
 
 export function MapShard({ index, isUnlocked, onClick }: MapShardProps) {
   return (
-    <Card
-      className={`bg-gray-800 border-2 ${
-        isUnlocked ? "border-amber-500" : "border-gray-700"
-      } cursor-pointer transition-all duration-300 hover:scale-105`}
+    <div
+      className={`cursor-pointer transition-all duration-300 relative`}
       onClick={onClick}
     >
-      <CardContent className="p-4">
-        <div className="relative aspect-square bg-gray-700 rounded-lg overflow-hidden">
-          <Image
-            src={`/placeholder.svg?text=Shard ${index + 1}&width=200&height=200`}
-            alt={`Map Shard ${index + 1}`}
-            layout="fill"
-            objectFit="cover"
-            className={isUnlocked ? "filter-none" : "filter blur-sm"}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            {isUnlocked ? (
-              <MapPin className="h-12 w-12 text-red-500 animate-pulse" />
-            ) : (
-              <Lock className="h-12 w-12 text-gray-500" />
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+      <div className={`w-full h-full flex items-center justify-center`}>
+        <div
+          className={`absolute inset-0 bg-gradient-radial from-gray-600/80 via-gray-700/60 to-transparent backdrop-blur-[8px] transition-opacity duration-500 ${
+            isUnlocked ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        {isUnlocked ? (
+          <MapPin className="h-12 w-12 text-pink-500 animate-pulse z-10" />
+        ) : (
+          <Lock className="h-12 w-12 text-gray-300 z-10" />
+        )}
+      </div>
+    </div>
   );
 }
