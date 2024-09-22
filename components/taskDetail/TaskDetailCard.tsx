@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Footprints, Clock, Trophy, BadgeCheck } from "lucide-react";
 import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
+import { useRouter } from "next/navigation";
 
 import { RouteMap } from "@/components/taskDetail/RouteMapCard";
 
@@ -13,6 +14,8 @@ export function TaskDetails() {
   const [startChallengeError, setStartChallengeError] = useState<Error | null>(
     null,
   );
+  const [isMapShardReady, setIsMapShardReady] = useState(false);
+  const router = useRouter();
 
   const { startChallenge } = useStartChallenge();
 
@@ -23,6 +26,10 @@ export function TaskDetails() {
     startChallenge(BigInt(1))
       .then(() => {
         setIsStartedChallenge(true);
+        // Simulate map-shard becoming available after 15 seconds
+        setTimeout(() => {
+          setIsMapShardReady(true);
+        }, 15000);
       })
       .catch((error) => {
         setStartChallengeError(error);
@@ -30,6 +37,10 @@ export function TaskDetails() {
       .finally(() => {
         setIsStartingChallenge(false);
       });
+  };
+
+  const handleGoToMapShard = () => {
+    router.push("/map-shard");
   };
 
   return (
@@ -63,21 +74,35 @@ export function TaskDetails() {
           hop across stepping stones, and use a rickety bridge to reach the
           other side.
         </p>
-        <Button
-          onClick={handleStartChallenge}
-          disabled={isStartingChallenge}
-          className="w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105"
-        >
-          {isStartingChallenge ? "Starting..." : "Begin Journey"}
-        </Button>
-        {isStartedChallenge && <p>Challenge started!</p>}
+        {!isStartedChallenge && (
+          <Button
+            onClick={handleStartChallenge}
+            disabled={isStartingChallenge}
+            className="w-full text-lg py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full transform transition-all duration-200 hover:scale-105"
+          >
+            {isStartingChallenge ? "Starting..." : "Begin Journey"}
+          </Button>
+        )}
+
         {startChallengeError && (
           <p>Error starting challenge: {startChallengeError.message}</p>
         )}
-        <div className="bg-pink-300 rounded-lg p-4 text-center">
-          <h2 className="text-lg font-bold mb-2">Next Location</h2>
-          <p>Block 123, Yishun Street 11, #08-456, Singapore 760123</p>
-        </div>
+
+        {isStartedChallenge && (
+          <div className="bg-pink-300 rounded-lg p-4 text-center">
+            <h2 className="text-lg font-bold mb-2">Next Location</h2>
+            <p>Block 123, Yishun Street 11, #08-456, Singapore 760123</p>
+          </div>
+        )}
+
+        {isMapShardReady && (
+          <Button
+            onClick={handleGoToMapShard}
+            className="w-full text-lg py-4 bg-amber-500 hover:bg-amber-400 text-white rounded-full transform transition-all duration-200 hover:scale-105"
+          >
+            Access Map Shard
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

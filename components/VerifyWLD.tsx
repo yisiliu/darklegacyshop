@@ -8,11 +8,7 @@ import {
 import React, { useState } from "react";
 import { Badge } from "./ui/badge";
 
-interface VerifyWLDProps {
-  onSuccess: () => void;
-}
-
-const VerifyWLD: React.FC<VerifyWLDProps> = ({ onSuccess }) => {
+const VerifyWLD: React.FC<VerifyWLDProps> = () => {
   const [isVerified, setIsVerified] = useState(false);
   const appId: `app_${string}` = process.env
     .NEXT_PUBLIC_WLD_CLIENT_ID as `app_${string}`;
@@ -37,13 +33,16 @@ const VerifyWLD: React.FC<VerifyWLDProps> = ({ onSuccess }) => {
         console.log("Verification succeeded", result);
         // Handle successful verification response
         localStorage.setItem("wld", "true");
-        setIsVerified(true);
       }
     } catch (error) {
       console.error("Error during verification", error);
       throw new Error("Verification failed."); // This message will be displayed to the user
     }
   };
+
+  function onSuccess(result: ISuccessResult): void | Promise<void> {
+    setIsVerified(true);
+  }
 
   return (
     <div className="z-[60]">

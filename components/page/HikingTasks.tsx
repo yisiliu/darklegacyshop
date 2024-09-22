@@ -7,7 +7,10 @@ export function HikingTasks() {
       <h1 className="text-4xl md:text-5xl font-extrabold text-grey-600 mb-8 text-center">
         PERILOUS PATH SELECTION
       </h1>
-
+      <p className="text-black-400 text-lg mb-6 text-center">
+        Choose your perilous path, brave soul. Each trail leads to a different
+        dark adventure, fraught with danger and untold riches.
+      </p>
       <div className="grid gap-6 md:grid-cols-3 w-full max-w-4xl">
         <TaskCard
           title="Easy"

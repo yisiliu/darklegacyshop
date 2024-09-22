@@ -14,6 +14,7 @@ import LocationInput from "@/components/taskDetail/LocationInput";
 import DifficultySelector from "@/components/taskDetail/DifficultySelector";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Plus } from "lucide-react";
 
 type Coordinate = [number, number];
 type Difficulty = "Easy" | "Medium" | "Hard";
@@ -25,7 +26,7 @@ interface RouteData {
   difficulty: Difficulty;
 }
 
-export function CreateRouteComponent() {
+export default function CreateRouteComponent() {
   const [routeData, setRouteData] = useState<RouteData>({
     locations: [[0, 0]],
     blockLimits: [BigInt(0)],

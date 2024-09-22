@@ -1,7 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Coins, Heart, Swords, Wind, Shield } from "lucide-react";
+import VerifyWLD from "@/components/VerifyWLD";
+import { Badge } from "../ui/badge";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface UserInfoCardProps {
@@ -27,8 +29,10 @@ const UserInfoCard = () => {
             />
             <AvatarFallback>UN</AvatarFallback>
           </Avatar>
+          {/* <VerifyWLD /> */}
           <h2 className="mt-4 text-xl font-bold">Unnamed Hero</h2>
           <p className="text-gray-500">Level 5 Adventurer</p>
+          <Badge>Verified</Badge>
         </div>
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
