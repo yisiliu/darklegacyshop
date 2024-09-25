@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -8,12 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Difficulty } from "@/types/trailTypes";
 
-export type Difficulty = "easy" | "medium" | "hard";
-
-const DifficultySelector = () => {
-  const [selectedDifficulty, setSelectedDifficulty] =
-    useState<Difficulty>(difficulty);
+const DifficultySelector = ({
+  difficulty,
+  setDifficulty,
+}: {
+  difficulty: Difficulty;
+  setDifficulty: (difficulty: Difficulty) => void;
+}) => {
   return (
     <Card className="bg-gray-800 border-amber-500 text-amber-300 mb-8">
       <CardHeader>
@@ -24,8 +27,8 @@ const DifficultySelector = () => {
       </CardHeader>
       <CardContent>
         <RadioGroup
-          value={selectedDifficulty}
-          onValueChange={(value) => setSelectedDifficulty(value as Difficulty)}
+          value={difficulty}
+          onValueChange={(value) => setDifficulty(value as Difficulty)}
           className="flex space-x-4"
         >
           {["easy", "medium", "hard"].map((level) => (

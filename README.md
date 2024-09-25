@@ -37,5 +37,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Deployed Contract
 
-Linea Sepolia: https://sepolia.lineascan.build/address/0x05a4c809d22811973455b0495a0febf2b3a9aac1
-Flow Testnet: https://evm-testnet.flowscan.io/address/0x05a4C809d22811973455B0495a0FebF2B3A9Aac1
+Linea Sepolia:
+
+https://sepolia.lineascan.build/address/0x05a4c809d22811973455b0495a0febf2b3a9aac1
+
+Flow Testnet:
+
+https://evm-testnet.flowscan.io/address/0x05a4C809d22811973455B0495a0FebF2B3A9Aac1
