@@ -15,10 +15,6 @@ export function Header() {
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         {isConnected ? (
           <>
-            <div className="flex items-center space-x-2">
-              <Wallet />
-              <p>{sliceAddress}</p>
-            </div>
             <Link
               href="/tasks"
               className="text-amber-500 text-xl font-bold flex items-center"
@@ -28,6 +24,7 @@ export function Header() {
             <div className="relative group w-max">
               <button className="flex items-center focus:outline-none">
                 <User />
+                <p>{sliceAddress}</p>
               </button>
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out">
                 <Link

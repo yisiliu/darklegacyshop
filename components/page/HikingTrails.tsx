@@ -3,7 +3,7 @@ import TaskCard from "@/components/TaskCard";
 
 export function HikingTasks() {
   return (
-    <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center bg-[#D2FDE3]">
+    <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center bg-[#D2FDE3] pt-16 sm:pt-0">
       <h1 className="text-4xl md:text-5xl font-extrabold text-grey-600 mb-8 text-center">
         PERILOUS PATH SELECTION
       </h1>

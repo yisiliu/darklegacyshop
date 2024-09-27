@@ -42,7 +42,7 @@ export default function KeyInventoryCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           {keys.map((key, index) => (
             <Link key={index} href={key.href} className="block">
               <div className="relative group cursor-pointer">

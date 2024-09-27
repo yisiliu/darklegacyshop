@@ -44,12 +44,12 @@ export function TaskDetails() {
   };
 
   return (
-    <Card className="bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden">
+    <Card className="border-2 bg-white border-gray-700 relative overflow-hidden">
       <CardHeader>
-        <RouteMap progress={2} />
+        <RouteMap progress={1} />
       </CardHeader>
       <CardContent className="space-y-4">
-        <h1 className="text-xl md:text-5xl font-extrabold text-amber-500 mb-4 text-gray-700">
+        <h1 className="text-xl md:text-4xl font-extrabold mb-4 text-gray-700">
           Route 1: Cross the River
         </h1>
         <div className="flex items-center text-gray-500 space-x-2">

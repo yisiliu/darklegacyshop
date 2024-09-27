@@ -222,6 +222,24 @@ contract HikingChallenge is ERC721Enumerable, Ownable {
         return keyMetadata[tokenId];
     }
 
+   function getAllKeyMetadata(uint256 startIndex, uint256 endIndex) external view returns (KeyMetadata[] memory) {
+        require(startIndex < endIndex, "Invalid range");
+        require(endIndex < _nextTokenId, "End index out of bounds");
+
+        uint256 length = endIndex - startIndex + 1;
+        KeyMetadata[] memory result = new KeyMetadata[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = keyMetadata[startIndex + i];
+        }
+
+        return result;
+    }
+
+    function getTotalKeysMinted() external view returns (uint256) {
+        return _nextTokenId - 1;
+    }
+
     function setDifficultyReward(Difficulty difficulty, uint256 reward) external onlyOwner {
         difficultyRewards[difficulty] = reward;
     }
