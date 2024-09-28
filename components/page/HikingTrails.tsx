@@ -1,7 +1,7 @@
 "use client";
-import TaskCard from "@/components/TaskCard";
+import TrailCard from "@/components/TrailCard";
 
-export function HikingTasks() {
+export function HikingTrails() {
   return (
     <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center bg-[#D2FDE3] pt-16 sm:pt-0">
       <h1 className="text-4xl md:text-5xl font-extrabold text-grey-600 mb-8 text-center">
@@ -12,26 +12,26 @@ export function HikingTasks() {
         dark adventure, fraught with danger and untold riches.
       </p>
       <div className="grid gap-6 md:grid-cols-3 w-full max-w-4xl">
-        <TaskCard
+        <TrailCard
           title="Easy"
           description="For novice adventurers"
           buttonText="Route 1: Cross the River"
           isLocked={false}
-          href="/tasks/1"
+          href="/Trails/1"
         />
-        <TaskCard
+        <TrailCard
           title="Medium"
           description="For seasoned travelers"
           buttonText="Coming Soon"
           isLocked={true}
-          href="/tasks/1"
+          href="/Trails/1"
         />
-        <TaskCard
+        <TrailCard
           title="Hard"
           description="For legendary heroes"
           buttonText="Coming Soon"
           isLocked={true}
-          href="/tasks/1"
+          href="/Trails/1"
         />
       </div>
     </main>

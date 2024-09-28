@@ -145,7 +145,7 @@ export default function ManageRoutesComponent() {
                 View your created routes and start challenges
               </CardDescription>
             </div>
-            <Link href="/tasks/create" passHref>
+            <Link href="/Trails/create" passHref>
               <Button
                 variant="outline"
                 size="sm"

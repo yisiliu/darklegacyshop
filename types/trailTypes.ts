@@ -13,3 +13,10 @@ export interface Trail {
 }
 
 export type TrailData = Omit<Trail, "id" | "name" | "status">;
+
+export interface KeyMetadata {
+  challengeId: string;
+  trailId: bigint;
+  completionBlock: bigint;
+  difficulty: number;
+}

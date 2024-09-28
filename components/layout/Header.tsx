@@ -16,7 +16,7 @@ export function Header() {
         {isConnected ? (
           <>
             <Link
-              href="/tasks"
+              href="/Trails"
               className="text-amber-500 text-xl font-bold flex items-center"
             >
               <Skull className="mr-2 h-6 w-6" />
@@ -34,7 +34,7 @@ export function Header() {
                   User Profile
                 </Link>
                 <Link
-                  href="/tasks/manage"
+                  href="/Trails/manage"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Manage Trails

@@ -6,9 +6,9 @@ import { Footprints, Clock, Trophy, BadgeCheck } from "lucide-react";
 import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
 import { useRouter } from "next/navigation";
 
-import { RouteMap } from "@/components/taskDetail/RouteMapCard";
+import { RouteMap } from "@/components/trailDetail/RouteMapCard";
 
-export function TaskDetails() {
+export function TrailDetails() {
   const [isStartingChallenge, setIsStartingChallenge] = useState(false);
   const [isStartedChallenge, setIsStartedChallenge] = useState(false);
   const [startChallengeError, setStartChallengeError] = useState<Error | null>(

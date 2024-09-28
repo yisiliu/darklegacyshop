@@ -7,8 +7,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Plus } from "lucide-react";
-import LocationInput from "@/components/taskDetail/LocationInput";
-import DifficultySelector from "@/components/taskDetail/DifficultySelector";
+import LocationInput from "@/components/manageTrail/LocationInput";
+import DifficultySelector from "@/components/manageTrail/DifficultySelector";
 import { TrailData, Difficulty } from "@/types/trailTypes";
 
 interface TrailFormProps {

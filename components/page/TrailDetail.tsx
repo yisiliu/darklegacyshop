@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
-import { TaskDetails } from "@/components/taskDetail/TaskDetailCard";
+import { TrailDetails } from "@/components/trailDetail/TrailDetailCard";
 
-export function TaskDetail() {
+export function TrailDetail() {
   // useEffect();
 
   return (
@@ -11,7 +11,7 @@ export function TaskDetail() {
         CURRENT JOURNEY
       </h1>
       <div className="grid gap-8 md:grid-cols-2">
-        <TaskDetails />
+        <TrailDetails />
       </div>
     </main>
   );

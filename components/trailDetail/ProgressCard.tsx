@@ -3,7 +3,7 @@
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function TaskProgress({
+export function TrailProgress({
   progress,
   checkpoints,
 }: {

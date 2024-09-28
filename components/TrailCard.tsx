@@ -8,7 +8,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-interface TaskCardProps {
+interface TrailCardProps {
   title: string;
   description: string;
   buttonText: string;
@@ -16,16 +16,16 @@ interface TaskCardProps {
   href: string; // Add this new prop
 }
 
-export default function TaskCard({
+export default function TrailCard({
   title,
   description,
   buttonText,
   isLocked,
   href, // Add this new prop
-}: TaskCardProps) {
+}: TrailCardProps) {
   return (
     <Card
-      className={`bg-gray-800 border-2 bg-white border-gray-700 relative overflow-hidden`}
+      className={`border-2 bg-white border-gray-700 relative overflow-hidden`}
     >
       <CardHeader>
         <CardTitle className="text-2xl flex items-center justify-center">
