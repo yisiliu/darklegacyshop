@@ -7,6 +7,7 @@ import { useStartChallenge } from "@/hooks/hiking/useStartChallenge";
 import { useRouter } from "next/navigation";
 
 import { RouteMap } from "@/components/trailDetail/RouteMapCard";
+import { LocationCard } from "@/components/trailDetail/LocationCard";
 
 export function TrailDetails() {
   const [isStartingChallenge, setIsStartingChallenge] = useState(false);
@@ -74,6 +75,7 @@ export function TrailDetails() {
           hop across stepping stones, and use a rickety bridge to reach the
           other side.
         </p>
+        <LocationCard />
         {!isStartedChallenge && (
           <Button
             onClick={handleStartChallenge}

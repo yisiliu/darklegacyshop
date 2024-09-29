@@ -31,7 +31,7 @@ export function HomeContent() {
           </CardHeader>
           <CardContent className="flex justify-center bg-white rounded-b-lg overflow-hidden">
             {isConnected ? (
-              <Link href="/Trails">
+              <Link href="/trails">
                 <Button
                   size="lg"
                   className="text-xl px-12 py-8 bg-pink-300 hover:bg-pink-200 text-gray-800 rounded-full shadow-lg shadow-[#f3b8e1]/50 transform transition-all duration-200 hover:scale-105"

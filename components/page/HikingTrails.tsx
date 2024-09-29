@@ -17,21 +17,21 @@ export function HikingTrails() {
           description="For novice adventurers"
           buttonText="Route 1: Cross the River"
           isLocked={false}
-          href="/Trails/1"
+          href="/trails/1"
         />
         <TrailCard
           title="Medium"
           description="For seasoned travelers"
           buttonText="Coming Soon"
           isLocked={true}
-          href="/Trails/1"
+          href="/trails/1"
         />
         <TrailCard
           title="Hard"
           description="For legendary heroes"
           buttonText="Coming Soon"
           isLocked={true}
-          href="/Trails/1"
+          href="/trails/1"
         />
       </div>
     </main>

@@ -1,0 +1,1 @@
+// startBLock, currentCheckpoint, stakedAmount
